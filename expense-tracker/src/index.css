@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #f8f6f2;
+  --surface: #ffffff;
+  --surface-muted: #f1ede6;
+  --ink: #1f1a17;
+  --muted: #6d6258;
+  --accent: #0f766e;
+  --accent-strong: #0c5d57;
+  --accent-soft: rgba(15, 118, 110, 0.14);
+  --border: #e5ded3;
+  --shadow-soft: 0 18px 36px rgba(30, 24, 20, 0.12);
+  --radius-l: 28px;
+  --radius-m: 20px;
+  --radius-s: 14px;
+  --font-sans: 'Space Grotesk', system-ui, sans-serif;
+  --font-display: 'Fraunces', 'Times New Roman', serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #f4d9c2 0%, transparent 70%),
+    radial-gradient(900px 500px at 110% 10%, #d4ede4 0%, transparent 60%),
+    linear-gradient(180deg, #f8f6f2 0%, #efe9df 100%);
+}
+
+#root {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+}
+
+p {
+  margin: 0;
+}
+
+code {
+  font-family: var(--font-mono);
+}
