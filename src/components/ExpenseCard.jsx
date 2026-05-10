@@ -7,7 +7,7 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
   year: 'numeric',
 })
 
-export default function ExpenseCard({ expense, onRemove, formatCurrency }) {
+export default function ExpenseCard({ expense, onRemove, formatCurrency, displayAmount }) {
   const tiltRef = useTilt({ max: 7, lift: 10, shift: 8, scale: 1.015 })
   let dateLabel = 'No date'
   if (expense.date) {
@@ -22,7 +22,7 @@ export default function ExpenseCard({ expense, onRemove, formatCurrency }) {
       <div>
         <div className="expense-header">
           <h3>{expense.name}</h3>
-          <span className="amount">{formatCurrency(expense.amount)}</span>
+          <span className="amount">{formatCurrency(displayAmount)}</span>
         </div>
         <div className="expense-meta">
           <span className="chip">{expense.category}</span>

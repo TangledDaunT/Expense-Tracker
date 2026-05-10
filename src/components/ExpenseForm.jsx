@@ -6,7 +6,7 @@ function todayValue() {
   return toLocalDateInputValue()
 }
 
-export default function ExpenseForm({ categories, onAddExpense }) {
+export default function ExpenseForm({ categories, onAddExpense, currency = 'USD' }) {
   const tiltRef = useTilt()
   const [name, setName] = useState('')
   const [amount, setAmount] = useState('')
@@ -48,6 +48,7 @@ export default function ExpenseForm({ categories, onAddExpense }) {
     onAddExpense({
       name: trimmedName,
       amount: Number(numericAmount.toFixed(2)),
+      currency,
       category,
       date: date || todayValue(),
       note: note.trim(),
@@ -85,7 +86,7 @@ export default function ExpenseForm({ categories, onAddExpense }) {
         </label>
 
         <label className="field" htmlFor={amountId}>
-          <span>Amount (USD)</span>
+          <span>Amount ({currency})</span>
           <input
             id={amountId}
             type="number"

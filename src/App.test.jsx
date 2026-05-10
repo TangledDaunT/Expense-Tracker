@@ -12,12 +12,19 @@ vi.mock('./components/ColorBends', () => ({
 }))
 
 vi.mock('./components/CurrencyConverter', () => ({
-  default: ({ amount, baseCurrency }) => (
+  default: ({ total, displayCurrency }) => (
     <section data-testid="currency-converter-stub">
-      {baseCurrency}:{amount}
+      {displayCurrency}:{total}
     </section>
   ),
 }))
+
+function jsonResponse(body, ok = true) {
+  return {
+    ok,
+    json: async () => body,
+  }
+}
 
 function getExpenseForm() {
   const headings = screen.getAllByRole('heading', { name: /log a new expense/i })
@@ -41,7 +48,29 @@ async function addExpense(user, { name, amount, category, note = '' }) {
 
 describe('App', () => {
   beforeEach(() => {
-    window.fetch = vi.fn()
+    window.fetch = vi.fn((url) => {
+      const value = String(url)
+      if (value.includes('/rates')) {
+        return Promise.resolve(
+          jsonResponse([
+            { date: '2026-05-09', base: 'USD', quote: 'EUR', rate: 0.85 },
+            { date: '2026-05-09', base: 'USD', quote: 'GBP', rate: 0.74 },
+            { date: '2026-05-09', base: 'USD', quote: 'INR', rate: 83.2 },
+          ]),
+        )
+      }
+      if (value.includes('/currencies')) {
+        return Promise.resolve(
+          jsonResponse([
+            { iso_code: 'USD', name: 'United States Dollar' },
+            { iso_code: 'EUR', name: 'Euro' },
+            { iso_code: 'GBP', name: 'British Pound' },
+            { iso_code: 'INR', name: 'Indian Rupee' },
+          ]),
+        )
+      }
+      return Promise.resolve(jsonResponse({ message: 'not found' }, false))
+    })
   })
 
   it('renders the empty state and required category options', () => {

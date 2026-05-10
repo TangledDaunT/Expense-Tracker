@@ -11,7 +11,15 @@ export default function ExpenseList({
   formatCurrency,
 }) {
   const tiltRef = useTilt({ max: 4, lift: 8, shift: 6 })
-  const totalVisible = items.reduce((sum, item) => sum + item.amount, 0)
+  let totalVisible = 0
+  let totalMissing = false
+  items.forEach((item) => {
+    if (!Number.isFinite(item.displayAmount)) {
+      totalMissing = true
+      return
+    }
+    totalVisible += item.displayAmount
+  })
 
   const updateFilter = (key) => (event) => {
     const value = event.target.value
@@ -33,7 +41,9 @@ export default function ExpenseList({
       <div className="panel-header">
         <div>
           <h2>Recent activity</h2>
-          <p className="muted">{items.length} entries · {formatCurrency(totalVisible)} shown</p>
+          <p className="muted">
+            {items.length} entries · {formatCurrency(totalMissing ? null : totalVisible)} shown
+          </p>
         </div>
         <button className="btn btn-ghost" type="button" onClick={clearFilters}>
           Reset filters
@@ -114,6 +124,7 @@ export default function ExpenseList({
               expense={expense}
               onRemove={onRemoveExpense}
               formatCurrency={formatCurrency}
+              displayAmount={expense.displayAmount}
             />
           ))
         )}
